@@ -1,6 +1,6 @@
-# CS 432
+# CS 432 (Sports Management System)
 This repository contains the source code for all Assignment 3 of the Databases (CS 432) course by Prof. Mayank Singh.
-The goal is to develop a DBMS using Flask and MySQl
+The goal is to develop a Sports Management System using Flask and MySQl
 
 ## Getting Started
 
