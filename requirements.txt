@@ -3,3 +3,4 @@ flask-mysqldb
 Flask-SQLAlchemy
 flask-login
 Werkzeug==2.0.0
+pyyaml

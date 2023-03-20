@@ -114,6 +114,9 @@
                                 <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">{{column_name}}</th>
                             {% endfor %}
                                 <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">   </th>
+                            {% if key == 'Users' %}
+                                <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">   </th>
+                            {% endif %}
                         </tr>
                     <thead>
                     <br>
@@ -156,8 +159,8 @@
                 }
             })
             var dataTable = $('.interactive_table').DataTable({
-                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                "iDisplayLengtg": 3,
+                "aLengthMenu": [[5, 10, 50, 100, 200, -1], [5, 10, 50, 100, 200, "All"]],
+                "iDisplayLengtg": 5,
             });
         } );
     </script>
