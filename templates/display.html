@@ -1,5 +1,5 @@
-<html>
-	<head>
+{% extends "base.html" %}{% block head %}
+	
 		<meta charset="utf-8" />
     <link rel="icon" href="{{ url_for('static', filename='images/file.png') }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,7 +22,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <title>Index | DBMS</title>
+    <title>Sports Management System</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">			
     <script>
       function setActive(id){
@@ -48,10 +48,8 @@
         setTimeout(getHash, 1);
       }
   </script>	
-	</head>
-	<body>
-    <div class = "heading_">Sports Management System</div>
-    <div class="container" >
+    {% endblock %}
+    {% block content %}
         <ul class="tab-nav">
             {% for key, value in tables_dict.items() %}
                 <li><a href="#{{key}}" class="tab-link" style="text-decoration: none;" id = "{{key}}1" onclick="setActive('{{key}}1')">{{key}}</a></li>
@@ -90,7 +88,6 @@
                 </table>
             </div>
         {% endfor %}
-    </div>
 
     <script>
         $(document).ready( function () {
@@ -113,5 +110,4 @@
             });
         } );
     </script>
-	</body>
-</html>
+	{% endblock %}
