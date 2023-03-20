@@ -2,9 +2,18 @@ drop database if exists sports_management;
 create database if not exists sports_management;
 use sports_management;
 
+DROP TABLE IF EXISTS admins;
+CREATE TABLE IF NOT EXISTS admins(
+   admin_ID   INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT
+  ,admin_name VARCHAR(22) NOT NULL
+  ,admin_email    VARCHAR(35) NOT NULL
+  ,password  VARCHAR(150) NOT NULL
+);
+INSERT INTO admins(admin_ID,admin_name,admin_email,password) VALUES (1,'admin','admin_dbms@iitgn.ac.in','sha256$SDQVvs89fJqnchBp$7880e80f235151993a378b6688ddc92c80804198ee5711460551fc64f92a9444');
+
 DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users(
-   user_ID   INTEGER  NOT NULL PRIMARY KEY 
+   user_ID   INTEGER  NOT NULL PRIMARY KEY AUTO_INCREMENT
   ,user_name VARCHAR(22) NOT NULL
   ,email     VARCHAR(35) NOT NULL
   ,password  VARCHAR(150) NOT NULL
@@ -1012,7 +1021,7 @@ INSERT INTO users(user_ID,user_name,email,password) VALUES (1000,'Lucienne St. C
 
 DROP TABLE IF EXISTS transactions;
 CREATE TABLE IF NOT EXISTS transactions(
-   transaction_ID INTEGER  NOT NULL
+   transaction_ID INTEGER  NOT NULL AUTO_INCREMENT
   ,issue_time     DATETIME  NOT NULL
   ,return_time    DATETIME  NOT NULL
   ,damage_status  VARCHAR(5) NOT NULL
