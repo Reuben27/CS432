@@ -24,9 +24,13 @@ git branch
 ```
 
 - You must also have MySQL Workbench installed on your laptop/desktop. Run the following command in MySQL Command Client to create the database being used in the website. Here the path, is the path to the setup.sql file. 
-- For example in my laptop I ran, source E:\IITGn-Academics\Semester-VIII\CS432\setup.sql
 ```
 source <path>
+```
+
+- For example in my laptop I ran, 
+```
+source E:\IITGn-Academics\Semester-VIII\CS432\setup.sql
 ```
 
 - Install the packages from requirements.txt
