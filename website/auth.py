@@ -68,7 +68,7 @@ def admin_login():
         admin = Admins.query.filter_by(admin_email=admin_email).first()
         if admin:
             if check_password_hash(admin.password,password):
-                flash('Logged in Successfully!', category="success")
+                flash('Admin logged in Successfully!', category="success")
                 login_user(admin, remember=True)
                 return redirect(url_for('views.display'))
             else:

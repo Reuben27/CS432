@@ -56,8 +56,21 @@
             {% endfor %}
         </ul>
         <br>
+        
         {% for key, value in tables_dict.items() %}
             <div id="{{key}}" class="tab-content" >
+                <form method="POST" action = "/display#{{key}}">
+                    <input  type = "text" value="{{key}}" id="keyaa" name="keyaa" style="display: none;"/>
+                    {% for column_name in value %}
+                    <div class="form-group">
+                        <label for="{{column_name}}">{{column_name}}</label>
+                        <input type="text" class="form-control" id="{{column_name}}" name="{{column_name}}" placeholder="Enter {{column_name}}"/>      
+                    </div>
+                    {% endfor %}
+                    <br />
+                    <button type="submit" class="btn btn-primary">Insert Data</button>
+                </form>
+                
                 <table class = "interactive_table" style="text-align: center; margin-left:auto; margin-right: auto;">
                     <thead>
                         <tr>

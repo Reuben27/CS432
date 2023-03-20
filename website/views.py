@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect
 from flask_login import login_required, current_user
-from . import db, tables_dict, mysql
+from . import db, tables_dict, mysql, insert_tables_dict
 import MySQLdb.cursors
 
 views = Blueprint('views', __name__)
@@ -17,7 +17,7 @@ def admin_work():
     return render_template("admin_work.html",user=current_user, tables_dict = tables_dict )
 
 
-@views.route("/display")
+@views.route("/display", methods=['GET','POST'])
 @login_required
 def display():
   table_data = {}
@@ -25,10 +25,27 @@ def display():
   for table_name in tables_dict:
     sql_query = "select * from {}".format(table_name)
     resultValue = cursor.execute(sql_query)
+    
     current_table_data = []
     if resultValue > 0:
       current_table_data = cursor.fetchall()
       table_data[table_name] = list(current_table_data)
+    mysql.connection.commit()
+      
+  if request.method == 'POST':
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    table_name = request.form.get('keyaa')
+    column_name =tables_dict[table_name]
+    data = []
+    sql_query_insert = "INSERT INTO "+table_name+" VALUES ("+"% s,"*(len(column_name)-1)+"% s)"
+    for i in column_name:
+      data.append(request.form[i])
+    data = tuple(data)
+    cursor.execute(sql_query_insert,data)
+    mysql.connection.commit()
+    flash('Insert successful', category='success')
+
+
   return render_template('display.html', tables_dict = tables_dict, keys=tables_dict.keys(), table_data = table_data, user = current_user) #, task_data = task_data, task_keys = task_keys)
 
 @views.route('/delete/<string:table_name>', methods=['GET', 'POST'])
