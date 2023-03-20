@@ -20,6 +20,7 @@ git --version
 - Clone this git repository. Run git branch to ensure you are on the main branch. 
 ```
 git clone https://github.com/Reuben27/CS432.git
+cd CS432
 git branch
 ```
 
