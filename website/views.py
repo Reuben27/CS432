@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from .models import User_issue
-from .import db
+from .import db, tables_dict
 import json
 
 views = Blueprint('views', __name__)
@@ -30,3 +30,9 @@ def transactions():
 #             db.session.delete(note)
 #             db.session.commit()
 #     return jsonify({})
+
+
+@views.route('/base-admin', methods=['GET','POST'])
+@login_required
+def admin_work():
+    return render_template("admin_work.html",user=current_user, tables_dict = tables_dict )

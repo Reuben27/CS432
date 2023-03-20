@@ -70,7 +70,7 @@ def admin_login():
             if check_password_hash(admin.password,password):
                 flash('Logged in Successfully!', category="success")
                 login_user(admin, remember=True)
-                return redirect(url_for('views.transactions'))
+                return redirect(url_for('views.admin_work'))
             else:
                 flash("Incorrect password, try again.", category='error')
         else:
