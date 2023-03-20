@@ -1,10 +1,10 @@
-{% extends "base.html" %}{% block head %}
-	
-		<meta charset="utf-8" />
+<html>
+	<head>
+	<meta charset="utf-8" />
     <link rel="icon" href="{{ url_for('static', filename='images/file.png') }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" value = "Display | DBMS">
+    <meta name="description" value = "Index | DBMS">
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
@@ -22,41 +22,88 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <title>Sports Management System</title>
+    <title>Display | DBMS</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">			
     <script>
-      function setActive(id){
-        var elements = document.getElementsByClassName('tab-link selected-tab');
-        while(elements.length > 0){
-            elements[0].classList.remove('selected-tab');
+        function setActive(id){
+            var elements = document.getElementsByClassName('tab-link selected-tab');
+            while(elements.length > 0){
+                elements[0].classList.remove('selected-tab');
+            }
+            var ele = document.getElementById(id);
+            ele.classList.add("selected-tab");   
         }
-        var ele = document.getElementById(id);
-        ele.classList.add("selected-tab");   
-      }
-      function getHash(){
-        var hash = window.location.hash.substr(1);
-        setActiveFirst(hash+'1');
-      }
-  
-      function setActiveFirst(id){
-        var ele = document.getElementById(id);
-        console.log(id);
-        ele.classList.add("selected-tab"); 
-      }
-  
-      window.onload = function(){
-        setTimeout(getHash, 1);
-      }
-  </script>	
-    {% endblock %}
-    {% block content %}
+        function getHash(){
+            var hash = window.location.hash.substr(1);
+            setActiveFirst(hash+'1');
+        }
+    
+        function setActiveFirst(id){
+            var ele = document.getElementById(id);
+            console.log(id);
+            ele.classList.add("selected-tab"); 
+        }
+    
+        window.onload = function(){
+            setTimeout(getHash, 1);
+        }
+    </script>	
+</head>
+<body>
+    <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+        <button 
+            class="navbar-toggler" 
+            type="button" 
+            data-toggle="collapse" 
+            data-target="#navbar"
+        >
+            <span class="navbar-toggler-icon"></span> 
+        </button>
+        <div class = "collapse navbar-collapse" id="navbar">
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                <a class="nav-item nav-link" id="home" href="/">Home</a>
+                <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                {% else %}
+                <a class="nav-item nav-link" id="adminLogin" href="/admin-login">Admin Login</a>
+                <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+                {% endif %}
+                
+            </div>
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+                <div class="alert alert-danger alter-dismessable fade show" rol="alert">
+                    {{ message}}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% else %}
+                <div class="alert alert-success alter-dismessable fade show" rol="alert">
+                    {{ message}}
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container" >
         <ul class="tab-nav">
             {% for key, value in tables_dict.items() %}
-                <li><a href="#{{key}}" class="tab-link" style="text-decoration: none;" id = "{{key}}1" onclick="setActive('{{key}}1')">{{key}}</a></li>
+                <li>
+                    <a class = "delete-entry" href="/rename/{{key}}">✏</a>
+                    <a href="#{{key}}" class="tab-link" style="text-decoration: none;" id = "{{key}}1" onclick="setActive('{{key}}1')">{{key}}</a>
+                </li>
             {% endfor %}
         </ul>
         <br>
-        
         {% for key, value in tables_dict.items() %}
             <div id="{{key}}" class="tab-content" >
                 <form method="POST" action = "/display#{{key}}">
@@ -70,7 +117,7 @@
                     <br />
                     <button type="submit" class="btn btn-primary">Insert Data</button>
                 </form>
-                
+
                 <table class = "interactive_table" style="text-align: center; margin-left:auto; margin-right: auto;">
                     <thead>
                         <tr>
@@ -90,7 +137,7 @@
                                         {% endfor %}
                                         {% set delete_end_point = {'e':''} %}
                                         {% for i in table_row.keys()%}
-                                        {% if delete_end_point.update({'e':delete_end_point.e ~ table_name ~ "_" ~ i ~ "=" ~ table_row[i] ~ "&"}) %} {% endif %}
+                                        {% if delete_end_point.update({'e':delete_end_point.e ~ i ~ "=" ~ table_row[i] ~ "&"}) %} {% endif %}
                                         {% endfor %}
                                         <td style = "padding: 5px;"><a class = "delete-entry" href="/delete/{{ table_name }}?{{ delete_end_point['e'] }}">X</a></td>
                                       </tr>
@@ -101,7 +148,7 @@
                 </table>
             </div>
         {% endfor %}
-
+    </div>
     <script>
         $(document).ready( function () {
             $('.interactive_table').editable({
@@ -123,4 +170,5 @@
             });
         } );
     </script>
-	{% endblock %}
+	</body>
+</html>

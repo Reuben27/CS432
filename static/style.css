@@ -25,43 +25,6 @@ body, .site {
   font-family: 'Quicksand';
 }
 
-.border{
-  margin: 20vh 25vw 20vh 25vw;
-  width: 50vw;
-  height: 60vh;
-  padding: 3vw;
-  align-items: center;
-  align-content: center;
-  border: 1px solid #236B8E;
-  border-radius: 0px;
-  background-color: lightgray;
-}
-
-.btn {
-  padding: 10px 40px;
-  background-color: darkblue;
-  color: #FFFFFF;
-  font-style: oblique;
-  font-weight: bold;
-  border-radius: 10px;
-}
-
-.textbox{
-  padding: 10px 40px;
-  background-color: lightblue;
-  color: black;
-  border-radius: 10px;
-}
-  
-::placeholder {
-  color: black;
-  opacity: 1;
-  font-style: oblique;
-  font-weight: bold;
-}
-
-
-
 ul {
   list-style: none;
   margin: 0;

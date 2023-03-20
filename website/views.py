@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect
 from flask_login import login_required, current_user
-from . import db, tables_dict, mysql, insert_tables_dict
+from . import db, tables_dict, mysql
 import MySQLdb.cursors
 
 views = Blueprint('views', __name__)
@@ -55,7 +55,7 @@ def delete(table_name):
     args = request.args
     field_lst = []
     for attr in tables_dict[table_name]:
-        field_name = "{}_{}".format(table_name,attr)
+        field_name = attr
         field_value = args[field_name]
         if (field_value == 'None' or field_value == None):
           field_value = None
