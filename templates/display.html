@@ -22,39 +22,42 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <title>Index | DBMS</title>
+    <title>Display | DBMS</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">			
     <script>
-      function setActive(id){
-        var elements = document.getElementsByClassName('tab-link selected-tab');
-        while(elements.length > 0){
-            elements[0].classList.remove('selected-tab');
+        function setActive(id){
+            var elements = document.getElementsByClassName('tab-link selected-tab');
+            while(elements.length > 0){
+                elements[0].classList.remove('selected-tab');
+            }
+            var ele = document.getElementById(id);
+            ele.classList.add("selected-tab");   
         }
-        var ele = document.getElementById(id);
-        ele.classList.add("selected-tab");   
-      }
-      function getHash(){
-        var hash = window.location.hash.substr(1);
-        setActiveFirst(hash+'1');
-      }
-  
-      function setActiveFirst(id){
-        var ele = document.getElementById(id);
-        console.log(id);
-        ele.classList.add("selected-tab"); 
-      }
-  
-      window.onload = function(){
-        setTimeout(getHash, 1);
-      }
-  </script>	
-	</head>
-	<body>
+        function getHash(){
+            var hash = window.location.hash.substr(1);
+            setActiveFirst(hash+'1');
+        }
+    
+        function setActiveFirst(id){
+            var ele = document.getElementById(id);
+            console.log(id);
+            ele.classList.add("selected-tab"); 
+        }
+    
+        window.onload = function(){
+            setTimeout(getHash, 1);
+        }
+    </script>	
+</head>
+<body>
     <div class = "heading_">Sports Management System</div>
     <div class="container" >
         <ul class="tab-nav">
             {% for key, value in tables_dict.items() %}
-                <li><a href="#{{key}}" class="tab-link" style="text-decoration: none;" id = "{{key}}1" onclick="setActive('{{key}}1')">{{key}}</a></li>
+                <li>
+                    <a class = "delete-entry" href="/rename/{{key}}">✏</a>
+                    <a href="#{{key}}" class="tab-link" style="text-decoration: none;" id = "{{key}}1" onclick="setActive('{{key}}1')">{{key}}</a>
+                </li>
             {% endfor %}
         </ul>
         <br>

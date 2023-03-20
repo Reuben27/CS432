@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
+import json
 
 app = Flask(__name__)
 
@@ -10,47 +11,12 @@ app.config['MYSQL_PASSWORD'] = 'Reuben@1234'
 app.config['MYSQL_DB'] = 'sports_management'
 
 mysql = MySQL(app)
-
-tables_dict = {
-  'Users' : ['user_ID', 'user_name', 'email'],
-  'Students' : ['user_ID', 'discipline', 'year_of_joining', 'programme'],
-  'Faculty' : ['user_ID', 'department'],
-  'Staff' : ['user_ID', 'job_profile', 'working_hours', 'salary'],
-  'Transactions' : ['transaction_ID', 'issue_time', 'return_time', 'damage_status'],
-  'Vendor': ['vendor_ID', 'vendor_name', 'vendor_email', 'address'],
-  'sports': ['Sport', 'sports_ID'],
-  'Inventory': ['equipment_ID', 'name', 'model', 'total_quantity', 'current_availability', 'deadstock_quantity', 'reserved_quantity'],
-  'Location': ['location_ID', 'Room_no', 'Location_Type'],
-  'Purchase': ['purchase_ID', 'amount', 'purchase_date', 'mode_of_payment', 'receipt'],
-  'Penalty': ['fee_receipt_ID', 'Description'],
-  'Storage': ['equipment_ID', 'location_ID'],
-  'Equip_Issue': ['transaction_ID', 'equipment_ID'],
-  'User_Issue': ['transaction_ID', 'user_ID'],
-  'New_stock': ['equipment_ID', 'purchase_ID', 'purchase_quantity'],
-  'Orders': ['vendor_ID', 'purchase_ID'],
-  'Strike': ['transaction_ID', 'fee_receipt_ID', 'Delay', 'Fees'],
-  'Reserved_stock': ['sports_ID', 'equipment_ID', 'reserved_quantity'],
-  'Event_coordinator': ['user_ID', 'sports_ID', 'event_name'],
-  'User_phone': ['user_ID', 'phone_number'],
-  'Vendor_phone': ['vendor_ID', 'phone_number']
-}
+with open('tables.json', 'r') as f:
+  tables_dict = json.load(f)
 
 @app.route('/')
 def index():
   return render_template('index.html')
-
-@app.route('/practice', methods =['GET', 'POST'])
-def practice():
-  msg = ''
-  if request.method == 'POST':
-    Id = request.form['Id']
-    firstname = request.form['firstname']
-    roll = request.form['roll']
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('INSERT INTO practice VALUES (% s, % s, % s)',(Id, firstname, roll ))
-    mysql.connection.commit()
-    msg = 'You have successfully inserted the data !!'
-  return render_template('practice.html', msg = msg)
 
 @app.route("/display")
 def display():
@@ -130,5 +96,25 @@ def update():
   except:
     return redirect(request.url)
 
+@app.route('/rename/<string:key>', methods=['GET', 'POST'])
+def rename(key):
+  print(key)
+  msg = ''
+  if request.method == 'POST':
+    new_name = request.form['name']
+    print(new_name)
+    print("HI")
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("ALTER TABLE {} RENAME {}".format(key, new_name))
+    mysql.connection.commit()
+    msg = 'You have successfully renamed the table !!'
+    tables_dict[new_name] = tables_dict[key]
+    del tables_dict[key]
+    print(tables_dict)
+    with open('tables.json', 'w') as json_file:
+      json.dump(tables_dict, json_file)
+    return redirect('/display#' + str(new_name))
+  return render_template('rename.html', msg = msg, key = key)
+  
 if __name__ == "__main__":
   app.run(debug=True)
