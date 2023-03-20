@@ -23,6 +23,11 @@ git clone https://github.com/Reuben27/CS432.git
 git branch
 ```
 
+- You must also have MySQL Workbench installed on your laptop/desktop. Run the following command in MySQL Command Client to create the database being used in the website. Here the path, is the path to the setup.sql file. For example, source E:\IITGn Academics\Semester VIII\CS 432 - Databases\Assignment 3\setup.sql
+```
+source <path>
+```
+
 - Install the packages from requirements.txt
 ```
 pip install -r requirements.txt

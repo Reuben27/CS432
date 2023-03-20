@@ -79,7 +79,7 @@
                                         {% endfor %}
                                         {% set delete_end_point = {'e':''} %}
                                         {% for i in table_row.keys()%}
-                                        {% if delete_end_point.update({'e':delete_end_point.e ~ table_name ~ "_" ~ i ~ "=" ~ table_row[i] ~ "&"}) %} {% endif %}
+                                        {% if delete_end_point.update({'e':delete_end_point.e ~ i ~ "=" ~ table_row[i] ~ "&"}) %} {% endif %}
                                         {% endfor %}
                                         <td style = "padding: 5px;"><a class = "delete-entry" href="/delete/{{ table_name }}?{{ delete_end_point['e'] }}">X</a></td>
                                       </tr>

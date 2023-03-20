@@ -32,7 +32,7 @@ tables_dict = {
   'Reserved_stock': ['sports_ID', 'equipment_ID', 'reserved_quantity'],
   'Event_coordinator': ['user_ID', 'sports_ID', 'event_name'],
   'User_phone': ['user_ID', 'phone_number'],
-  'Vendor_phone': ['vendor_Id', 'phone_number']
+  'Vendor_phone': ['vendor_ID', 'phone_number']
 }
 
 @app.route('/')
@@ -71,8 +71,7 @@ def delete(table_name):
     args = request.args
     field_lst = []
     for attr in tables_dict[table_name]:
-        field_name = "{}_{}".format(table_name,attr)
-        field_value = args[field_name]
+        field_value = args[attr]
         if (field_value == 'None' or field_value == None):
           field_value = None
         field_lst.append([attr, field_value])
@@ -89,10 +88,10 @@ def delete(table_name):
       cur.execute(sql_query)
       mysql.connection.commit()
       cur.close()
-      return redirect('/#' + str(table_name))
+      return redirect('/display#' + str(table_name))
     except Exception as e:
       return 'There was an issue adding the entry:' + str(e)
-  return redirect('/#' + str(table_name))
+  return redirect('/display#' + str(table_name))
 
 @app.route('/update', methods=['GET', 'POST'])
 def update():
