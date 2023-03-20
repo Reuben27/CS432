@@ -4,7 +4,7 @@
     <link rel="icon" href="{{ url_for('static', filename='images/file.png') }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" value = "Index | DBMS">
+    <meta name="description" value = "Practice | DBMS">
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
@@ -13,22 +13,13 @@
     />
     <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/59b8e18344.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>  
-    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script> 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <title>Rename | Sports Management System</title>
-		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
+    <title>Where | DBMS</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">			
+		<style>
 			.border{
-				margin: 20vh 25vw 20vh 25vw;
+				margin: 15vh 25vw 20vh 25vw;
 				width: 50vw;
-				height: 50vh;
+				height: 60vh;
 				padding: 3vw;
 				align-items: center;
 				align-content: center;
@@ -36,11 +27,11 @@
 				border-radius: 0px;
 				background-color: lightgray;
 			}
-		</style>				
-</head>
+		</style>
+	</head>
 	<body>
 		<div class="site">
-      <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+			<nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
         <button 
             class="navbar-toggler" 
             type="button" 
@@ -64,12 +55,14 @@
         </div>
     </nav>
 			<div align="center" class="border">
-				<h1>Rename Table</h1>
-				<br></br>
-				<form action="/rename/{{ key }}" method="post">
+				<h1>INSERT WHERE CLAUSE PARAMETERS</h1>
+				<br><br>
+				<form  action="/where/{{ key }}" method="post">
 					<div class = "msg">{{ msg }}</div>
-          <input id="name" name="name" placeholder="Enter New Name" class="form-control"/></br></br>
-					<input type="submit"  class="btn btn-primary btn-lg" value="Rename" name = "SUBMIT "></br>
+					<input id="Column_Name" name="Column_Name" type="text" placeholder="Enter column name" class="form-control"/></br></br>
+					<input id="Value" name="Value" placeholder="Enter value to be searched" class="form-control"/>
+					<br>
+					<input type="submit"  class="btn btn-primary btn-lg" value="SUBMIT" name = "SUBMIT "></br>
 				</form>
 			</div>
 		</div>

@@ -13,19 +13,91 @@
     />
     <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/59b8e18344.js" crossorigin="anonymous"></script>
-    <title>Index | DBMS</title>
-		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">				
+    <title>Index | Sports Management System</title>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+			* {
+				font-family: "Quicksand";
+			}
+
+			html {
+				margin: 0 !important;
+				padding: 0 !important;
+				box-sizing: border-box;
+				max-width: 100vw !important;
+				text-align: justify;
+				scroll-behavior: smooth;
+				overflow-x: hidden;
+			}
+
+			body, .site {
+				margin: 0 !important;
+				padding: 0 !important;
+				box-sizing: border-box;
+				max-width: 100vw !important;
+				text-align: justify;
+				background-color: #ffffff;
+				font-family: 'Quicksand';
+			}
+			.border{
+				margin: 20vh 0 20vh 0;
+				width: 100vw;
+				height: 40vh;
+				padding: 3vw;
+				align-items: center;
+				align-content: center;
+				border: 1px solid #236B8E;
+				border-radius: 0px;
+				background-color: lightgray;
+			}
+		</style>
 	</head>
-	<body>
+	<body background="https://wallpaperaccess.com/full/1623281.jpg">
 		<div class ="site">
 			<div align="center" class="border">
 				<div class="header">
-					<h1 class="word">Index</h1>
-				</div></br></br></br>
+					<h1 class="word">CS 432</h1>
+				</div></br>
 					<h1 class="bottom">
-						Welcome to DBMS Assigment 3!
-					</h1></br></br></br>
+						Welcome to Sports Management System!
+					</h1></br>
+				<div>
+					<a href="/login">
+					<button type="button" class="btn btn-primary btn-lg">Login</button>
+					</a>
+				</div>
 			</div>
 		</div>
+	</div>
+	
+	<div class = "footer" style="margin-top: 0vh; text-align: center; color:white; font-size: large; font-weight: bold;">
+			&#169; Sports Management System <br> 
+		</div>
+	<div class = "footer" style="margin-top: -15vh; text-align: left; color:white; font-size: large; font-weight: bold;">
+		<div id = "G1" class = "team-details">
+			<p class = "team-name" style="margin-left: 270px">TEAM G1</p>
+			<p class = "members" style="margin-left: 250px">	
+				Anushka Niti<br>
+				Sai Yashverdhan<br>
+				Himanshu Singhal<br>
+				Achal Kanojia<br>
+				B Prashant Kumar<br>
+				Meet Thumar
+			</p>
+		</div>
+	</div>
+	<div class = "footer" style="margin-top: -30vh; text-align: right; color:white; font-size: large; font-weight: bold;">
+		<div id = "G2" class = "team-details">
+			<p class = "team-name" style="margin-right: 270px">TEAM G2</p>
+			<p class = "members" style="margin-right: 250px">
+				Reuben Devanesan<br>
+				Pallav Jain<br>
+				Sresth Tosniwal<br>
+				Abhishek Yawalkar<br>
+				Ishan Prayagi<br>
+			</p>
+		</div>
+	</div>
 	</body>
 </html>

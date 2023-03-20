@@ -22,8 +22,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
-    <title>Display | DBMS</title>
-		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">			
+    <title>Display | Sports Management System</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">			
     <script>
         function setActive(id){
             var elements = document.getElementsByClassName('tab-link selected-tab');
@@ -73,40 +73,27 @@
             </div>
         </div>
     </nav>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                {% if category == 'error' %}
-                <div class="alert alert-danger alter-dismessable fade show" rol="alert">
-                    {{ message}}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% else %}
-                <div class="alert alert-success alter-dismessable fade show" rol="alert">
-                    {{ message}}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
     <div class="container" >
         <ul class="tab-nav">
             {% for key, value in tables_dict.items() %}
                 <li>
-                    <a class = "delete-entry" href="/rename/{{key}}">✏</a>
+                    {% if key not in ['Users', 'Students', 'Faculty', 'Staff', 'User_phone', 'Event_coordinator', 'User_Issue'] %}
+                        <a class = "delete-entry" href="/rename/{{key}}">✏</a>
+                    {% endif %}
+                    {% if key in ['Users', 'Students', 'Faculty', 'Staff', 'User_phone', 'Event_coordinator', 'User_Issue'] %}
+                        <a class = "delete-entry"></a>
+                    {% endif %}
+                    <a class = "delete-entry"  href="/where/{{key}}">🔍</a>
+                    &nbsp;&nbsp;
                     <a href="#{{key}}" class="tab-link" style="text-decoration: none;" id = "{{key}}1" onclick="setActive('{{key}}1')">{{key}}</a>
                 </li>
             {% endfor %}
         </ul>
         <br>
         {% for key, value in tables_dict.items() %}
-            <div id="{{key}}" class="tab-content" >
+            <div id="{{key}}" class="tab-content">
                 <form method="POST" action = "/display#{{key}}">
+                    <h3 class="msg" style="color:red">{{msg}} </h3>
                     <input  type = "text" value="{{key}}" id="keyaa" name="keyaa" style="display: none;"/>
                     {% for column_name in value %}
                     <div class="form-group">
@@ -118,34 +105,38 @@
                     <button type="submit" class="btn btn-primary">Insert Data</button>
                 </form>
 
-                <table class = "interactive_table" style="text-align: center; margin-left:auto; margin-right: auto;">
+                <br>
+                <div align="center">
+                <table class = "interactive_table" style="text-align: center; margin-left:auto; margin-right: auto;" align="center">
                     <thead>
                         <tr>
                             {% for column_name in value %}
-                                <th style="text-align: center; font-family: Roboto; font-size: 1.2em; padding: 10px; color: #368F8B">{{column_name}}</th>
+                                <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">{{column_name}}</th>
                             {% endfor %}
+                                <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">   </th>
                         </tr>
                     <thead>
-
+                    <br>
                     <tbody>
                         {% for table_name, table_content in table_data.items() %}
                             {% if table_name == key %}
                                 {% for table_row in table_content %}
                                     <tr>
                                         {% for i,j in table_row.items() %}
-                                            <td style="padding: 5px; color: black;" data-name="update" class="update" data-type="text" data-pk="{{table_name}},{{table_row[tables_dict[table_name][0]]}},{{i}}">{{table_row[i]}}</td>
+                                            <td style="padding: 5px; color: black; border: 0.5px solid gray;" data-name="update" class="update" data-type="text" data-pk="{{table_name}},{{table_row[tables_dict[table_name][0]]}},{{i}}">{{table_row[i]}}</td>
                                         {% endfor %}
                                         {% set delete_end_point = {'e':''} %}
                                         {% for i in table_row.keys()%}
                                         {% if delete_end_point.update({'e':delete_end_point.e ~ i ~ "=" ~ table_row[i] ~ "&"}) %} {% endif %}
                                         {% endfor %}
-                                        <td style = "padding: 5px;"><a class = "delete-entry" href="/delete/{{ table_name }}?{{ delete_end_point['e'] }}">X</a></td>
+                                        <td style = "padding: 5px; border: 0.5px solid gray;"><a class = "delete-entry" href="/delete/{{ table_name }}?{{ delete_end_point['e'] }}">X</a></td>
                                       </tr>
                                 {% endfor %}
                             {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
+                </div>
             </div>
         {% endfor %}
     </div>

@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
-/* base styles */
 * {
   font-family: "Quicksand";
 }
@@ -30,47 +29,10 @@ ul {
   margin: 0;
   padding: 0;
 }
+
 a {
   color: black;
   text-decoration: none;
-}
-/* contents styling */
-header {
-  padding: 5px 10px;
-  background: darkgray;
-}
-h1 {
-  margin: 0;
-  font-size: 16px;
-  color: #000;
-}
-.container {
-  padding: 10px;
-}
-.container.h2 {
-  font-size: 14px;
-}
-
-/* tab styling */
-.tab-content {
-  /* margin-left: 26vw; */
-  /* position: center; */
-  width: auto;
-  height: 300px;
-  padding: 10px;
-  border: 0px solid #ccc !important;
-}
-
-.heading_ {
-  padding-top: 1em;
-  padding-bottom: 1em;
-  text-align: center;
-  position: center;
-  font-size: 2em;
-  background-color: #246A73;
-  color: #F8F7FF;
-  font-weight: bold;
-
 }
 
 .tab-nav {
@@ -82,19 +44,14 @@ h1 {
   background-color: #F3DFC1;
   display: flex;
   align-items: center;
-  /* width: 100px; */
   height: 30px;
   color: #7d8283;
   border-radius: 11px;
-  /* margin-right: -1px; */
   margin: 3px;
   padding-right: 10px;
   padding-left: 10px;
-  /* border: 1px solid #ccc; */
   border-bottom: 0;
   font-size: 1em;
-  font-family: Roboto, sans-serif;
-  /* text-decoration: none; */
 }
 
 .tab-link.selected-tab:hover {
@@ -107,18 +64,12 @@ h1 {
   background-color: #DDBEA8;
   font-weight: bold;
   color: #ffffff;
-
 }
 
 .selected-tab {
   background-color: #5c4f80;
   font-weight: bold;
   color: #ffffff;
-}
-
-
-.tab-content{
-  font-family: Roboto, sans-serif;
 }
 
 .tab-content:not(:target) {
@@ -130,34 +81,12 @@ h1 {
 }
 
 .interactive-table{
-  font-family: Roboto, sans-serif;
   text-align: center;
-}
-
-.input-form{
-  width: fit-content;
-  padding: 0em;
-  background-color: #99cfcd;
-  /* opacity: 20%; */
-  border-radius: 20px;
-}
-
-#input-fields {
-  padding: 1em;
-  color: #353538;
-  font-size: 0.9em;
-  display: table;
-  font-weight: 100;
-}
-
-.table-row{
-  display: table-row;
 }
 
 .delete-entry{
   padding: 2px;
 }
-
 
 .delete-entry:hover{
   color: white;
@@ -174,60 +103,7 @@ input {
   display: table-cell;
 }
 
-.footer{
-  /* position: re; */
-  background-color: #d1c6bd;
-  height: 8em;
-  bottom: 0;
-  width: 100%;
-  opacity: 80%;
-  vertical-align: middle;
-  /* height: max-content; */
-}
-
-#contact{
-  width: 50% ;
-  color: #fafafa;
-  height: fit-content;
-  padding-left: 7vw;
-  margin-top: 25px;
-  margin-bottom: auto;
-  font-weight: bold;
-  font-size: 150%;
-  vertical-align: middle;
-  float: left;
-
-}
-#contact .p{
-  font-weight: 0;
-  color: #F3DFC1;
-}
-
-.team-details{
-  padding-top: 8px;
-  width: 25%;
-  float: left;
-  /* text-align: right; */
-  
-}
-
-.team-name{
-  font-weight: bold;
-  margin-bottom: 0px;
-  font-family: roboto, sans-serif;
-  color : #353538;
-  text-align: center;
-}
-
-.members{
-  /* margin-left: 40%; */
-  text-align: center;
-  font-family: lato, sans-serif;
-  font-size: small;
-  color: #565658;
-}
-
 .dataTables_filter{
   width:10vw;
-  margin-left:22vw;
+  margin: 0 20vw 0 20vw;
 }

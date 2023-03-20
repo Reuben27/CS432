@@ -15,7 +15,7 @@
             crossorigin="anonymous"
         />
 
-    {% block head %}<title>Home</title>{% endblock %}
+    {% block head %}<title>Home | Sports Management System</title>{% endblock %}
     </head>
     <body>
         <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,9 +30,11 @@
             <div class = "collapse navbar-collapse" id="navbar">
                 <div class="navbar-nav">
                     {% if user.is_authenticated %}
-                    <a class="nav-item nav-link" id="home" href="/">Home</a>
+                    <a class="nav-item nav-link" id="index" href="/">Index</a>
+                    <a class="nav-item nav-link" id="home" href="/display">Home</a>
                     <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
                     {% else %}
+                    <a class="nav-item nav-link" id="index" href="/">Index</a>
                     <a class="nav-item nav-link" id="adminLogin" href="/admin-login">Admin Login</a>
                     <a class="nav-item nav-link" id="login" href="/login">Login</a>
                     <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
