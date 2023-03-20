@@ -20,6 +20,7 @@ git --version
 - Clone this git repository. Run git branch to ensure you are on the main branch. 
 ```
 git clone https://github.com/Reuben27/CS432.git
+cd CS432
 git branch
 ```
 
@@ -28,9 +29,14 @@ git branch
 pip install -r requirements.txt
 ```
 
-- Open the Setup.sql file on MySQL Workbench and run the query. It will create the database and setup the data in the tables. 
+- You must also have MySQL Workbench installed on your laptop/desktop. Run the following command in MySQL Command Client to create the database being used in the website. Here the path, is the path to the setup.sql file. 
 ```
-setup.sql
+source <path>
+```
+
+- For example in my laptop I ran,
+```
+source E:\IITGn-Academics\Semester-VIII\CS432\setup.sql
 ```
 
 ## Runnig the Web App

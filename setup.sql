@@ -3383,8 +3383,8 @@ DROP TABLE IF EXISTS equip_issue;
 CREATE TABLE equip_issue(
    transaction_ID INTEGER  NOT NULL
   ,equipment_ID   INTEGER  NOT NULL
- ,CONSTRAINT fk_eqtr_trans FOREIGN KEY (transaction_ID) REFERENCES transactions(transaction_ID)
- ,CONSTRAINT fk_eqtr_equip FOREIGN KEY (equipment_ID) REFERENCES inventory(equipment_ID)
+ ,CONSTRAINT fk_eqtr_trans FOREIGN KEY (transaction_ID) REFERENCES transactions(transaction_ID) ON DELETE CASCADE ON UPDATE CASCADE 
+ ,CONSTRAINT fk_eqtr_equip FOREIGN KEY (equipment_ID) REFERENCES inventory(equipment_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO equip_issue(transaction_ID,equipment_ID) VALUES (1702,59);
@@ -5392,8 +5392,8 @@ DROP TABLE IF EXISTS storage;
 CREATE TABLE storage(
    equipment_ID INTEGER  NOT NULL
   ,location_ID  INTEGER  NOT NULL
- ,CONSTRAINT fk_str_loc FOREIGN KEY (location_ID) REFERENCES location(location_ID)
- ,CONSTRAINT fk_str_equ FOREIGN KEY  (equipment_ID) REFERENCES inventory(equipment_ID)
+ ,CONSTRAINT fk_str_loc FOREIGN KEY (location_ID) REFERENCES location(location_ID) ON DELETE CASCADE ON UPDATE CASCADE
+ ,CONSTRAINT fk_str_equ FOREIGN KEY  (equipment_ID) REFERENCES inventory(equipment_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO storage(equipment_ID,location_ID) VALUES (1,1);
 INSERT INTO storage(equipment_ID,location_ID) VALUES (2,2);
@@ -5464,8 +5464,8 @@ DROP TABLE IF EXISTS user_issue;
 CREATE TABLE user_issue(
    transaction_ID INTEGER  NOT NULL 
   ,user_ID        INTEGER  NOT NULL
-,CONSTRAINT fk_usis_trans FOREIGN KEY (transaction_ID) REFERENCES transactions(transaction_ID)
-,CONSTRAINT fk_usis_user FOREIGN KEY (user_ID) REFERENCES users(user_ID)
+,CONSTRAINT fk_usis_trans FOREIGN KEY (transaction_ID) REFERENCES transactions(transaction_ID) ON DELETE CASCADE ON UPDATE CASCADE
+,CONSTRAINT fk_usis_user FOREIGN KEY (user_ID) REFERENCES users(user_ID) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
 INSERT INTO user_issue(transaction_ID,user_ID) VALUES (1,651);
@@ -7472,8 +7472,8 @@ CREATE TABLE new_stock(
    equipment_ID      INTEGER  NOT NULL
   ,purchase_ID       INTEGER  NOT NULL
   ,purchase_quantity INTEGER  NOT NULL
- ,CONSTRAINT fk_newstock_equip FOREIGN KEY (equipment_ID ) REFERENCES inventory(equipment_ID)
-,CONSTRAINT fk_newstock_pur FOREIGN KEY (purchase_ID ) REFERENCES purchase(purchase_ID )
+ ,CONSTRAINT fk_newstock_equip FOREIGN KEY (equipment_ID ) REFERENCES inventory(equipment_ID) ON DELETE CASCADE ON UPDATE CASCADE
+,CONSTRAINT fk_newstock_pur FOREIGN KEY (purchase_ID ) REFERENCES purchase(purchase_ID ) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO new_stock(equipment_ID,purchase_ID,purchase_quantity) VALUES (17,13,11);
 INSERT INTO new_stock(equipment_ID,purchase_ID,purchase_quantity) VALUES (31,18,20);
@@ -7629,8 +7629,8 @@ DROP TABLE IF EXISTS orders;
 CREATE TABLE orders(
    vendor_ID   INTEGER  NOT NULL 
   ,purchase_ID INTEGER  NOT NULL
- ,CONSTRAINT fk_order_vend FOREIGN KEY (vendor_ID  ) REFERENCES vendor(vendor_ID )
-,CONSTRAINT fk_order_pur FOREIGN KEY (purchase_ID ) REFERENCES purchase(purchase_ID)
+ ,CONSTRAINT fk_order_vend FOREIGN KEY (vendor_ID  ) REFERENCES vendor(vendor_ID ) ON DELETE CASCADE ON UPDATE CASCADE
+,CONSTRAINT fk_order_pur FOREIGN KEY (purchase_ID ) REFERENCES purchase(purchase_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO orders(vendor_ID,purchase_ID) VALUES (52,10);
 INSERT INTO orders(vendor_ID,purchase_ID) VALUES (55,5);
@@ -7659,8 +7659,8 @@ CREATE TABLE strike(
   ,fee_receipt_ID INTEGER  NOT NULL
   ,Delay          INTEGER  NOT NULL
   ,Fees           INTEGER  NOT NULL
- ,CONSTRAINT fk_strike_trans FOREIGN KEY (transaction_ID ) REFERENCES transactions(transaction_ID)
- ,CONSTRAINT fk_strike_pen FOREIGN KEY (fee_receipt_ID ) REFERENCES penalty(fee_receipt_ID)
+ ,CONSTRAINT fk_strike_trans FOREIGN KEY (transaction_ID ) REFERENCES transactions(transaction_ID) ON DELETE CASCADE ON UPDATE CASCADE
+ ,CONSTRAINT fk_strike_pen FOREIGN KEY (fee_receipt_ID ) REFERENCES penalty(fee_receipt_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO strike(transaction_ID,fee_receipt_ID,Delay,Fees) VALUES (9,1,0,75);
 INSERT INTO strike(transaction_ID,fee_receipt_ID,Delay,Fees) VALUES (20,2,1,87);
@@ -7698,8 +7698,8 @@ CREATE TABLE Reserved_stock(
    sports_ID         INTEGER  NOT NULL
   ,equipment_ID      INTEGER NOT NULL
   ,reserved_quantity INTEGER NOT NULL
-  ,CONSTRAINT fk_revstk_sport FOREIGN KEY (sports_ID) REFERENCES sports(sports_ID)
- ,CONSTRAINT fk_revstk_equip FOREIGN KEY (equipment_ID) REFERENCES inventory(equipment_ID)
+  ,CONSTRAINT fk_revstk_sport FOREIGN KEY (sports_ID) REFERENCES sports(sports_ID) ON DELETE CASCADE ON UPDATE CASCADE
+ ,CONSTRAINT fk_revstk_equip FOREIGN KEY (equipment_ID) REFERENCES inventory(equipment_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO Reserved_stock(sports_ID,equipment_ID,reserved_quantity) VALUES (2,1,10);
@@ -7771,8 +7771,8 @@ CREATE TABLE Event_coordinator(
    user_ID    INTEGER  NOT NULL 
   ,sports_ID  INTEGER  NOT NULL
   ,event_name VARCHAR(20) NOT NULL
- ,CONSTRAINT fk_evtcor_sport FOREIGN KEY (sports_ID ) REFERENCES sports(sports_ID )
- ,CONSTRAINT fk_evtcor_user FOREIGN KEY (user_ID  ) REFERENCES users(user_ID )
+ ,CONSTRAINT fk_evtcor_sport FOREIGN KEY (sports_ID ) REFERENCES sports(sports_ID ) ON DELETE CASCADE ON UPDATE CASCADE
+ ,CONSTRAINT fk_evtcor_user FOREIGN KEY (user_ID  ) REFERENCES users(user_ID ) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO Event_coordinator(user_ID,sports_ID,event_name) VALUES (393,20,'Hallbol');
 INSERT INTO Event_coordinator(user_ID,sports_ID,event_name) VALUES (999,9,'RanKaushal');
@@ -7828,7 +7828,7 @@ DROP TABLE IF EXISTS User_Phone;
 CREATE TABLE User_Phone(
    user_ID      INTEGER  NOT NULL
   ,phone_number BIGINT  NOT NULL
-  ,CONSTRAINT fk_usph FOREIGN KEY (user_ID) REFERENCES users(user_ID  )
+  ,CONSTRAINT fk_usph FOREIGN KEY (user_ID) REFERENCES users(user_ID  ) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO User_Phone(user_ID,phone_number) VALUES (1,5559331452);
 INSERT INTO User_Phone(user_ID,phone_number) VALUES (2,9417733825);
@@ -8835,7 +8835,7 @@ DROP TABLE IF EXISTS Vendor_Phone;
 CREATE TABLE Vendor_Phone(
    vendor_ID    INTEGER  NOT NULL 
   ,phone_number BIGINT  NOT NULL
- ,CONSTRAINT fk_venph FOREIGN KEY (vendor_ID) REFERENCES vendor(vendor_ID )
+ ,CONSTRAINT fk_venph FOREIGN KEY (vendor_ID) REFERENCES vendor(vendor_ID ) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
 INSERT INTO Vendor_Phone(vendor_ID,phone_number) VALUES (1,9761526370);
@@ -8943,7 +8943,7 @@ DROP TABLE IF EXISTS faculty;
 CREATE TABLE faculty(
    user_ID    INTEGER  NOT NULL
   ,department VARCHAR(33) NOT NULL
- ,CONSTRAINT fk_usfac FOREIGN KEY (user_ID) REFERENCES users(user_ID )
+ ,CONSTRAINT fk_usfac FOREIGN KEY (user_ID) REFERENCES users(user_ID ) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO faculty(user_ID,department) VALUES (17,'Chemical Engineering');
 INSERT INTO faculty(user_ID,department) VALUES (886,'Electrical Engineering');
@@ -9102,7 +9102,7 @@ CREATE TABLE Staff(
   ,working_hours INTEGER  NOT NULL
   ,salary        INTEGER  NOT NULL
   ,user_ID       INTEGER  NOT NULL
-  ,CONSTRAINT fk_usstaf FOREIGN KEY (user_ID) REFERENCES users(user_ID )
+  ,CONSTRAINT fk_usstaf FOREIGN KEY (user_ID) REFERENCES users(user_ID ) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO Staff(job_profile,working_hours,salary,user_ID) VALUES ('Quality Engineer',8,1287848,302);
 INSERT INTO Staff(job_profile,working_hours,salary,user_ID) VALUES ('Help Desk Operator',8,666411,581);
@@ -9211,7 +9211,7 @@ CREATE TABLE students(
   ,discipline      VARCHAR(33) NOT NULL
   ,year_of_joining INTEGER  NOT NULL
   ,programme       VARCHAR(5) NOT NULL
-  ,CONSTRAINT fk_usstud FOREIGN KEY (user_ID) REFERENCES users(user_ID )
+  ,CONSTRAINT fk_usstud FOREIGN KEY (user_ID) REFERENCES users(user_ID ) ON DELETE CASCADE ON UPDATE CASCADE
 );
 INSERT INTO students(user_ID,discipline,year_of_joining,programme) VALUES (657,'Humanities and Social Sicences',2021,'MTech');
 INSERT INTO students(user_ID,discipline,year_of_joining,programme) VALUES (583,'Materials Science and Engineering',2014,'MA');
