@@ -39,7 +39,7 @@ source <path>
 source E:\IITGn-Academics\Semester-VIII\CS432\setup.sql
 ```
 
-## Runnig the Web App
+## Running the Web App
 
 In order to run the Web App you can run the following command in your terminal or run main.py file
 
@@ -59,7 +59,7 @@ http://127.0.0.1:5000/
 
 - The link will direct you to Home page of our WebApp. Click the login button will direct you to our login page.
 
-### User Login 
+## User Login 
 <br>
 
 ![Alt text](screenshots/login.png)
@@ -72,7 +72,7 @@ http://127.0.0.1:5000/
 <br>
 <br>
 
-### Admin Login
+## Admin Login
 
 - You can also Login as Admin. In the navigation bar select Admin Login. In the login form enter the following credentials for login.
 ![Alt text](screenshots/adminlogin.png)
