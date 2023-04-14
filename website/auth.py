@@ -17,17 +17,22 @@ def login():
             if check_password_hash(user.password,password):
                 flash('Logged in Successfully!', category="success")
                 login_user(user, remember=True)
+<<<<<<< Updated upstream
                 return redirect(url_for('views.transactions'))
+=======
+                return redirect(url_for('views.profile'))
+>>>>>>> Stashed changes
             else:
                 flash("Incorrect password, try again.", category='error')
         else:
             flash('Email does not exist.', category='error')
-    return render_template('login.html', user=current_user)
+    return render_template('login.html', user=current_user,usertype="User")
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
+    flash("Logged Out Succesfully",category="success")
     return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
@@ -55,9 +60,13 @@ def sign_up():
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
+<<<<<<< Updated upstream
             return redirect(url_for('views.transactions'))
+=======
+            return redirect(url_for('views.profile'))
+>>>>>>> Stashed changes
 
-    return render_template("sign_up.html",user=current_user)
+    return render_template("sign_up.html",user=current_user,usertype="User")
 
 @auth.route('/admin-login', methods=['GET', 'POST'])
 def admin_login():
@@ -75,4 +84,4 @@ def admin_login():
                 flash("Incorrect password, try again.", category='error')
         else:
             flash('Email does not exist.', category='error')
-    return render_template('admin_login.html', user=current_user)
+    return render_template('admin_login.html', user=current_user,usertype="Admin")

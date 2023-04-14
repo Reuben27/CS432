@@ -30,12 +30,30 @@
             <div class = "collapse navbar-collapse" id="navbar">
                 <div class="navbar-nav">
                     {% if user.is_authenticated %}
+<<<<<<< Updated upstream
                     <a class="nav-item nav-link" id="home" href="/">Home</a>
+=======
+                    {% if usertype == "Admin"%}
+                    <a class="nav-item nav-link" id="index" href="/">Home</a>
+                    <a class="nav-item nav-link" id="home" href="/display">Data</a>
+>>>>>>> Stashed changes
                     <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                    {% elif usertype == "User" %}
+                    <a class="nav-item nav-link" id="index" href="/">Home</a>
+                    <a class="nav-item nav-link" id="home" href="/user-profile">User Profile</a>
+                    <a class="nav-item nav-link" id="home" href="/eq-issue">Equipment Issue</a>
+                    <a class="nav-item nav-link" id="home" href="/eq-return">Equipment Return</a>
+                    <a class="nav-item nav-link" id="home" href="/prev-transactions">Previous Transactions</a>
+                    <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                    {% endif %}
                     {% else %}
+<<<<<<< Updated upstream
                     <a class="nav-item nav-link" id="adminLogin" href="/admin-login">Admin Login</a>
                     <a class="nav-item nav-link" id="login" href="/login">Login</a>
                     <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+=======
+                    <a class="nav-item nav-link" id="index" href="/">Home</a>
+>>>>>>> Stashed changes
                     {% endif %}
                     
                 </div>
@@ -48,7 +66,7 @@
             {% if category == 'error' %}
             <div class="alert alert-danger alter-dismessable fade show" rol="alert">
                 {{ message}}
-                <button type="button" class="close" data-dismiss="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

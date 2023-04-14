@@ -28,7 +28,18 @@ tables_dict = {
     'Vendor_phone': ['vendor_Id', 'phone_number']
     }
 
+<<<<<<< Updated upstream
 DB_NAME = "database.db"
+=======
+conf = yaml.safe_load(open('db.yaml'))
+sql_host = conf['mysql_host']
+sql_user = conf['mysql_user']
+sql_pass = conf['mysql_password']
+sql_db = conf['mysql_db']
+
+with open('website/tables.json', 'r') as f:
+  tables_dict = json.load(f)
+>>>>>>> Stashed changes
 
 def create_app():
     app = Flask(__name__, template_folder='../templates')
@@ -48,7 +59,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import Users, Transactions, User_issue
+    from .models import Users
 
     with app.app_context():
         db.create_all()
