@@ -17,18 +17,19 @@ def login():
             if check_password_hash(user.password,password):
                 flash('Logged in Successfully!', category="success")
                 login_user(user, remember=True)
-                return redirect(url_for('views.display'))
+                return redirect(url_for('views.profile'))
             else:
                 flash("Incorrect password, try again.", category='error')
         else:
             flash('Email does not exist.', category='error')
-    return render_template('login.html', user=current_user)
+    return render_template('login.html', user=current_user,usertype="User")
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.login'))
+    flash("Logged Out Succesfully",category="success")
+    return redirect(url_for('views.index'))
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
@@ -55,9 +56,9 @@ def sign_up():
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
-            return redirect(url_for('views.display'))
+            return redirect(url_for('views.profile'))
 
-    return render_template("sign_up.html",user=current_user)
+    return render_template("sign_up.html",user=current_user,usertype="User")
 
 @auth.route('/admin-login', methods=['GET', 'POST'])
 def admin_login():
@@ -68,11 +69,11 @@ def admin_login():
         admin = Admins.query.filter_by(admin_email=admin_email).first()
         if admin:
             if check_password_hash(admin.password,password):
-                flash('Admin logged in Successfully!', category="success")
+                flash('Logged in Successfully!', category="success")
                 login_user(admin, remember=True)
                 return redirect(url_for('views.display'))
             else:
                 flash("Incorrect password, try again.", category='error')
         else:
             flash('Email does not exist.', category='error')
-    return render_template('admin_login.html', user=current_user)
+    return render_template('admin_login.html', user=current_user,usertype="Admin")

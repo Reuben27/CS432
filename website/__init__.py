@@ -20,7 +20,6 @@ sql_db = conf['mysql_db']
 with open('website/tables.json', 'r') as f:
   tables_dict = json.load(f)
 
-print(tables_dict)
 
 def create_app():
     app = Flask(__name__, template_folder='../templates',static_folder='../static')
@@ -41,7 +40,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import Users, Transactions, User_issue
+    from .models import Users
 
     with app.app_context():
         db.create_all()

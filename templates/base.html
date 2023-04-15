@@ -15,7 +15,7 @@
             crossorigin="anonymous"
         />
 
-    {% block head %}<title>Home | Sports Management System</title>{% endblock %}
+    {% block head %}<title>Home</title>{% endblock %}
     </head>
     <body>
         <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,14 +30,20 @@
             <div class = "collapse navbar-collapse" id="navbar">
                 <div class="navbar-nav">
                     {% if user.is_authenticated %}
-                    <a class="nav-item nav-link" id="index" href="/">Index</a>
-                    <a class="nav-item nav-link" id="home" href="/display">Home</a>
+                    {% if usertype == "Admin"%}
+                    <a class="nav-item nav-link" id="index" href="/">Home</a>
+                    <a class="nav-item nav-link" id="home" href="/display">Data</a>
                     <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                    {% elif usertype == "User" %}
+                    <a class="nav-item nav-link" id="index" href="/">Home</a>
+                    <a class="nav-item nav-link" id="home" href="/user-profile">User Profile</a>
+                    <a class="nav-item nav-link" id="home" href="/equip-issue">Equipment Issue</a>
+                    <a class="nav-item nav-link" id="home" href="/equip-return">Equipment Return</a>
+                    <a class="nav-item nav-link" id="home" href="/prev-trans">Previous Transactions</a>
+                    <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                    {% endif %}
                     {% else %}
-                    <a class="nav-item nav-link" id="index" href="/">Index</a>
-                    <a class="nav-item nav-link" id="adminLogin" href="/admin-login">Admin Login</a>
-                    <a class="nav-item nav-link" id="login" href="/login">Login</a>
-                    <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+                    <a class="nav-item nav-link" id="index" href="/">Home</a>
                     {% endif %}
                     
                 </div>
@@ -50,7 +56,7 @@
             {% if category == 'error' %}
             <div class="alert alert-danger alter-dismessable fade show" rol="alert">
                 {{ message}}
-                <button type="button" class="close" data-dismiss="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

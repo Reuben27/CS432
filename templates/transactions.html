@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% block head %}<title>Transactions | Sports Management System</title>{% endblock %}
+    {% block content %}
+    <h1 align="center">Transactions</h1>
+    <div align="center">
+        <table class = "interactive_table" style="text-align: center; margin-left:auto; margin-right: auto;" align="center">
+            <thead>
+                <tr>
+                        <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">Transaction ID</th>
+                        <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">Equipment</th>
+                        <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">Issue Time</th>
+                        <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">Return Time</th>
+                        <th style="text-align: center; font-size: 1.2em; padding: 30px; color: #368F8B; border: 0.5px solid gray;">Damage Status</th>
+                </tr>
+            <thead>
+            <br>
+            </thead>
+            <tbody>
+                {% for i in utransactions %}
+                <tr>  
+                    {% for j in i.values() %} 
+                        <td style="padding: 5px; color: black; border: 0.5px solid gray;" data-name="update" class="update" data-type="text">{{j}}</td>
+                    {% endfor %}                    
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
