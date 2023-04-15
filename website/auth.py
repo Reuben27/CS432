@@ -3,6 +3,7 @@ from .models import Users, Admins
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
+import re
 
 auth = Blueprint('auth', __name__)
 
@@ -10,7 +11,9 @@ auth = Blueprint('auth', __name__)
 def login():
     if request.method == 'POST':
         email = request.form.get('email')
+        email = re.sub('<[^>]*>', '', email)
         password = request.form.get('password')
+        password = re.sub('<[^>]*>', '', password)
 
         user = Users.query.filter_by(email=email).first()
         if user:
@@ -35,9 +38,13 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
+        email = re.sub('<[^>]*>', '', email)
         user_name = request.form.get('user_name')
+        user_name = re.sub('<[^>]*>', '', user_name)
         password1 = request.form.get('password1')
+        password1 = re.sub('<[^>]*>', '', password1)
         password2 = request.form.get('password2')
+        password2 = re.sub('<[^>]*>', '', password2)
 
         user = Users.query.filter_by(email=email).first()
         if user:
@@ -64,7 +71,9 @@ def sign_up():
 def admin_login():
     if request.method == 'POST':
         admin_email = request.form.get('admin_email')
+        admin_email = re.sub('<[^>]*>', '', admin_email)
         password = request.form.get('password')
+        password = re.sub('<[^>]*>', '', password)
 
         admin = Admins.query.filter_by(admin_email=admin_email).first()
         if admin:

@@ -4,6 +4,7 @@ from .import db, tables_dict, mysql
 import MySQLdb.cursors
 import json
 from datetime import datetime
+import re
 
 views = Blueprint('views', __name__)
 
@@ -30,13 +31,17 @@ def display():
   if request.method == 'POST':
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     table_name = request.form.get('keyaa')
+    table_name = re.sub('<[^>]*>', '', table_name)
 
     column_name =tables_dict[table_name]
     data = []
 
     sql_query_insert = "INSERT INTO "+table_name+" VALUES ("+"% s,"*(len(column_name)-1)+"% s)"
     for i in column_name:
-      data.append(request.form[i])
+      data_val = request.form[i]
+      data_val = re.sub('<[^>]*>', '', data_val)      
+      data.append(data_val)
+
     data = tuple(data)
     try:
       cursor.execute(sql_query_insert,data)
@@ -83,6 +88,7 @@ def delete(table_name):
 @login_required
 def update():
   row = request.form['pk']
+  row = re.sub('<[^>]*>', '', row)
   name = ""
   id = ""
   col = ""
@@ -106,6 +112,7 @@ def update():
         col += i       
 
   value = request.form['value']
+  value = re.sub('<[^>]*>', '', value)
   cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
   sql_query = 'update {2} set {3} = "{1}" where {4} = {0};'.format(id, value, name, col, tables_dict[name][0])
 
@@ -124,6 +131,7 @@ def rename(key):
   msg = ''
   if request.method == 'POST':
     new_name = request.form['name']
+    new_name = re.sub('<[^>]*>', '', new_name)
     print(new_name)
     print("HI")
     cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -154,8 +162,10 @@ def where(key):
   try:
     if request.method == 'POST':
       column_name = request.form['Column_Name']
+      column_name = re.sub('<[^>]*>', '', column_name)
       print(column_name)
       value = request.form['Value']
+      value = re.sub('<[^>]*>', '', value)
       print(value)
       print("HI")
       cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -191,8 +201,12 @@ def profile():
       cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
       data = []
       sql_query_insert = "Update Users Set user_name =%s,email=%s where user_id ={}".format(current_user.get_id())
-      data.append(request.form["user_name"])
-      data.append(request.form["email"])
+      user_name_val = request.form["user_name"]
+      user_name_val = re.sub('<[^>]*>', '', user_name_val)
+      email_val = request.form["email"]
+      email_val = re.sub('<[^>]*>', '', email_val)
+      data = [user_name_val,email_val]
+    
       data = tuple(data)
       if(data[0] != user_data[0]["user_name"] or data[1] != user_data[0]["email"]):
         cursor.execute(sql_query_insert,data)
@@ -235,6 +249,7 @@ def issue():
     availability = {}
     for i in temp:
       equip_model = i["name"] + "-" + i["model"]
+      
       inventory_data[equip_model] = i["equipment_ID"]
       availability[i["equipment_ID"]] = i["current_availability"]
     mysql.connection.commit()
@@ -243,11 +258,14 @@ def issue():
     if request.method == 'POST': 
        
       issue_time = request.form["issue_time"]
+      issue_time = re.sub('<[^>]*>', '', issue_time)
       if(issue_time == ''):
         flash("Please select date and time","error")
         return redirect(url_for("views.issue"))
       cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-      eq_id = inventory_data[request.form["eq_name"]]
+      eq_name_val = request.form["eq_name"]
+      eq_name_val = re.sub('<[^>]*>', '', eq_name_val)
+      eq_id = inventory_data[eq_name_val]
 
       if(availability[eq_id]==0):
         flash("Item Not Available","error")
@@ -335,8 +353,11 @@ def return_equip():
 
     if request.method == 'POST':
       try:
-        trans_id = int(request.form["trans_id"])
+        trans_id = request.form["trans_id"]
+        trans_id = re.sub('<[^>]*>', '', trans_id)
         return_time = request.form["return_time"]
+        return_time = re.sub('<[^>]*>', '', return_time)
+        trans_id = int(trans_id)
               
       except:
         flash("Please fill the values", "error")
@@ -352,7 +373,7 @@ def return_equip():
 
       if(delay<=0):
         flash("Return time invalid","error")
-        return redirect("view.return_equip")
+        return redirect(url_for("view.return_equip"))
       
       else:
         if delay > 10:
