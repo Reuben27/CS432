@@ -232,17 +232,27 @@ def issue():
     cursor.execute(sql_query)
     temp = list(cursor.fetchall())
     inventory_data = {}
+    availability = {}
     for i in temp:
-      inventory_data[i["name"]] = i["equipment_ID"]
+      equip_model = i["name"] + "-" + i["model"]
+      inventory_data[equip_model] = i["equipment_ID"]
+      availability[i["equipment_ID"]] = i["current_availability"]
     mysql.connection.commit()
 
-    if request.method == 'POST':
+
+    if request.method == 'POST': 
+       
       issue_time = request.form["issue_time"]
       if(issue_time == ''):
         flash("Please select date and time","error")
         return redirect(url_for("views.issue"))
       cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
       eq_id = inventory_data[request.form["eq_name"]]
+
+      if(availability[eq_id]==0):
+        flash("Item Not Available","error")
+        return redirect(url_for("views.issue"))
+      
       trans_data = []
       equip_issue_data = []
       user_issue_data = []
@@ -256,18 +266,22 @@ def issue():
       result = list(cursor.fetchall())
       trans_id = result[0]["id"]
       if (trans_id>0):
-        equip_issue_data = [trans_id,eq_id,trans_id,current_user.get_id()]
+        equip_issue_data = [trans_id,eq_id]
+        user_issue_data = [trans_id,current_user.get_id()]
+        curnt_avl = availability[eq_id] - 1
 
+        current_update_data= [curnt_avl, eq_id]
         eq_issue_insert="INSERT INTO equip_issue(transaction_ID,equipment_ID) VALUES (%s,%s)"
         user_issue_insert="INSERT INTO user_issue(transaction_ID,user_ID) VALUES (%s,%s)"
+        availability_query="UPDATE Inventory SET current_availability = %s where equipment_id= %s "
 
-        print(equip_issue_data)
-        print(user_issue_data)
+        print(availability)
         try:
           cursor.execute(eq_issue_insert,tuple(equip_issue_data))
           cursor.execute(user_issue_insert,tuple(user_issue_data))
-          flash("Equipment Issued with Transaction ID: "+str(trans_id),"success")
-
+          cursor.execute(availability_query,tuple(current_update_data))
+          flash("Equipment Issued with Transaction ID: "+str(trans_id)+" Available: "+str(availability[eq_id]-1),"success")
+          
         except:
           flash("Equipment Issue Failed","error")
 
@@ -280,26 +294,44 @@ def issue():
 @views.route('/equip-return',methods=['GET','POST'])
 @login_required
 def return_equip():
+    dead = 0
+    cbr_avl = 1
     fees = 0
     description = ""
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     transactions_query = "select transaction_id as id from user_issue where user_id={}".format(current_user.get_id())
     result = cursor.execute(transactions_query)
-    
+    finaltransactionlist = []
+
     if(result>0):
       temp = list(cursor.fetchall())
       transactionlist = []
       for i in temp:
         transactionlist.append(i["id"])
-      returntime_query = "select transaction_id as id, issue_time from transactions where return_time = '2000-01-01 00:00:00' and transaction_id in {}".format(tuple(transactionlist))
-
-      cursor.execute(returntime_query)
+      if len(transactionlist) == 1:
+        returntime_query = "select transaction_id as id, issue_time from transactions where return_time = '2000-01-01 00:00:00' and transaction_id = {}".format(transactionlist[0])
+        cursor.execute(returntime_query)
+      else:
+        returntime_query = "select transaction_id as id, issue_time from transactions where return_time = '2000-01-01 00:00:00' and transaction_id in {}".format(tuple(transactionlist))
+        cursor.execute(returntime_query)
       temp = list(cursor.fetchall())
-      finaltransactionlist = []
       transtime ={}
       for i in temp:
         finaltransactionlist.append(i["id"])
         transtime[i["id"]] = i["issue_time"]
+
+    sql_query = "select * from Inventory"
+    cursor.execute(sql_query)
+    temp = list(cursor.fetchall())
+    inventory_data = {}
+    availability = {}
+    deadstock={}
+    for i in temp:
+      equip_model = i["name"] + "-" + i["model"]
+      inventory_data[equip_model] = i["equipment_ID"]
+      availability[i["equipment_ID"]] = i["current_availability"]
+      deadstock[i["equipment_ID"]] = i["deadstock_quantity"]
+
 
     if request.method == 'POST':
       try:
@@ -318,7 +350,7 @@ def return_equip():
       delay = dt_rt-dt_it
       delay = delay.total_seconds()/(60*60)
 
-      if(delay<0):
+      if(delay<=0):
         flash("Return time invalid","error")
         return redirect("view.return_equip")
       
@@ -326,11 +358,14 @@ def return_equip():
         if delay > 10:
           fees = 10
           description = "Late"
-        damage = request.form["damage"]
+        damage = request.form.get("damage")
         trans_data = []
         trans_data.append(return_time)
         if(damage == "TRUE"):
           fees= fees + 100
+          dead = 1
+          cbr_avl = 0
+
           if(description ==""):
             description = "Broken"
           else:
@@ -340,6 +375,15 @@ def return_equip():
           trans_data.append("FALSE")
         trans_data.append(trans_id)
 
+        trans_id_query = "select equipment_id as id from equip_issue where transaction_id = "+ str(trans_id)
+        cursor.execute(trans_id_query)
+        temp = list(cursor.fetchall())
+        print(temp)
+        eq_id = temp[0]["id"]
+        cbr_avl = cbr_avl +availability[eq_id]
+        dead = dead + deadstock[eq_id]
+
+        inventory_update_data = [cbr_avl,dead,eq_id]
         if fees != 0:
           penalty_query = "INSERT INTO penalty(description) VALUE (%s)"
           fee_id_query = "SELECT LAST_INSERT_ID() as id"
@@ -350,11 +394,14 @@ def return_equip():
           
           strike_query = "INSERT INTO strike(transaction_ID,fee_receipt_ID,Delay,Fees) VALUES (%s,%s,%s,%s)"
           strike_data = [trans_id,fee_id,delay,fees]
-          print(strike_data)
-          cursor.execute(strike_query,tuple(strike_data))   
+          cursor.execute(strike_query,tuple(strike_data))
+          
+          
+        inventory_update = "UPDATE inventory  SET current_availability=%s, deadstock_quantity=%s where equipment_ID = %s"
         trans_update = "UPDATE transactions SET return_time=%s, damage_status=%s where transaction_ID = %s"
         try:
           cursor.execute(trans_update,tuple(trans_data))
+          cursor.execute(inventory_update,tuple(inventory_update_data))
           
           flash("Item returned successfully","success")
         except:
